@@ -12,16 +12,16 @@ namespace filmes.Repositories
     {
 
         //Conexão que fornece parametro pro acesso ao banco de dados
-        private string StringConexao = "Data Source= DEV4\\SQLEXPRESS; initial catalog=Filmes; user Id=sa; pwd=sa@132";
+        private string StringConexao = "Data Source= DEV301\\SQLEXPRESS; initial catalog=Filmes_Manha; user Id=sa; pwd=sa@132";
 
         List<GeneroDomain> Genero = new List<GeneroDomain>();
         //listar os generos
         public List<GeneroDomain> Listar()
         {
-            
+
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                string query = "select IdGenero, Nome from Genero";
+                string query = "SELECT IdGenero, Nome from Genero";
 
                 //Abrir a conexão
                 con.Open();
@@ -46,47 +46,108 @@ namespace filmes.Repositories
                     }
                 }
             }
-
             return Genero;
         }
 
+        public GeneroDomain GetById(int id)
+        {
+            using (SqlConnection con = new SqlConnection(StringConexao))
+            {
+                string queryBuscar = "SELECT IdGenero, Nome FROM Genero";
+
+                using (SqlCommand cmd = new SqlCommand(queryBuscar, con))
+                {
+                    cmd.Parameters.AddWithValue("@ID", id);
+
+                    con.Open();
+
+                    SqlDataReader rdr;
+
+                    rdr = cmd.ExecuteReader();
+
+                    if (rdr.Read())
+                    {
+                        GeneroDomain genero = new GeneroDomain
+                        {
+                            IdGenero = Convert.ToInt32(rdr["IdGenero"]),
+                            Nome = rdr["Nome"].ToString()
+                        };
+
+                        return genero;
+                    }
+                    return null;
+                }
+            }
+        }
+    
         public void Cadastrar(GeneroDomain genero)
         {
-            string Query = "insert into Genero (Nome) values(@Nome)";
-
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                SqlCommand cmd = new SqlCommand(Query, con);
-                cmd.Parameters.AddWithValue("@Nome", genero.Nome);
-                con.Open();
-                cmd.ExecuteNonQuery();
+                string queryInsert = "INSERT INTO Genero (Nome) VALUES(@Nome)";
+
+                using (SqlCommand cmd = new SqlCommand(queryInsert, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nome", genero.Nome);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
-        public void Alterar(GeneroDomain genero)
+        /// <summary>
+        /// Atualiza um gênero existente
+        /// </summary>
+        /// <param name="genero">Objeto gênero que será atualizado</param>
+        /// 
+        public void AtualizarIdCorpo(GeneroDomain genero)
         {
-            string Query = "update Genero set Nome = @Nome where IdGenero = @IdGenero";
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                SqlCommand cmd = new SqlCommand(Query, con);
-                cmd.Parameters.AddWithValue("@Nome", genero.Nome);
-                cmd.Parameters.AddWithValue("@IdGenero", genero.IdGenero);
-                con.Open();
-                cmd.ExecuteNonQuery();
+                string Query = "UPDATE Genero SET Nome = @Nome WHERE IdGenero= @ID";
+                using (SqlCommand cmd = new SqlCommand(Query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nome", genero.Nome);
+                    cmd.Parameters.AddWithValue("@ID", genero.IdGenero);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
-        public void Deletar(GeneroDomain genero)
+        /// <summary>
+        /// Atualiza um gênero existente
+        /// </summary>
+        /// <param name="genero">Objeto que será atualizado</param>
+        public void AtualizarIdUrl(int id, GeneroDomain genero)
         {
-            string Query = "Delete From Genero Where IdGenero = @IdGenero";
             using (SqlConnection con = new SqlConnection(StringConexao))
             {
-                SqlCommand cmd = new SqlCommand(Query, con);
-                cmd.Parameters.AddWithValue("@Nome", genero.Nome);
-                cmd.Parameters.AddWithValue("@IdGenero", genero.IdGenero);
-                con.Open();
-                cmd.ExecuteNonQuery();
+                string queryAtualizar = "UPDATE Genero SET Nome = @Nome WHERE IdGenero= @ID";
+                using (SqlCommand cmd = new SqlCommand(queryAtualizar, con)) {
+                    cmd.Parameters.AddWithValue("@Nome", genero.Nome);
+                    cmd.Parameters.AddWithValue("@ID", genero.IdGenero);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
 
+        public void Deletar(int id)
+        {
+
+            using (SqlConnection con = new SqlConnection(StringConexao))
+            {
+                string Query = "DELETE FROM Genero WHERE IdGenero= @ID";
+
+                using (SqlCommand cmd = new SqlCommand(Query, con))
+                {
+                    cmd.Parameters.AddWithValue("@ID", id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+        }
     }
-}
+ }
+

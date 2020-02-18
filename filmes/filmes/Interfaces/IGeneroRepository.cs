@@ -14,11 +14,37 @@ namespace filmes.Interfaces
         /// <returns>Retorna uma lista de generos</returns>
         List<GeneroDomain> Listar();
 
-        void Cadastrar (GeneroDomain generoDomain);
+        // Retorno NomeMetodo(Parâmetro)
+        /// <summary>
+        /// Cadastra um novo gênero
+        /// </summary>
+        /// <param name="genero">Objeto genero que será cadastrado</param>
+        void Cadastrar  (GeneroDomain genero);
 
-        void Alterar(GeneroDomain generoDomain);
+        /// <summary>
+        /// Atualizadq um gênero através do corpo
+        /// </summary>
+        /// <param name="genero">Nome do gênero que será atualizado</param>
+        void AtualizarIdCorpo(GeneroDomain genero);
 
-        void Deletar(GeneroDomain generoDomain);
+        /// <summary>
+        /// Atualiza um gênero através do seu ID
+        /// </summary>
+        /// <param name="id">ID do gênero que será atualizado</param>
+        /// <param name="genero">Nome do gênero que será atualizado</param>
+        void AtualizarIdUrl(int id, GeneroDomain genero);
+
+        /// <summary>
+        /// Busca um gênero através do seu ID
+        /// </summary>
+        /// <param name="id">ID do gênero que será buscado</param>
+        GeneroDomain GetById(int id);
+
+        /// <summary>
+        /// Deleta um gênero através do seu ID
+        /// </summary>
+        /// <param name="id">ID do gênero que será deletado</param>
+        void Deletar(int id);
 
     }
 

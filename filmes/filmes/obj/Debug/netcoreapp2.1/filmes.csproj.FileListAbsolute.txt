@@ -40,3 +40,17 @@ C:\Users\Bruno\Desktop\2semestre-Sprint2-back-end\filmes\filmes\obj\Debug\netcor
 C:\Users\Bruno\Desktop\2semestre-Sprint2-back-end\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.RazorTargetAssemblyInfo.cache
 C:\Users\Bruno\Desktop\2semestre-Sprint2-back-end\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.dll
 C:\Users\Bruno\Desktop\2semestre-Sprint2-back-end\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.pdb
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\bin\Debug\netcoreapp2.1\filmes.deps.json
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\bin\Debug\netcoreapp2.1\filmes.runtimeconfig.json
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\bin\Debug\netcoreapp2.1\filmes.runtimeconfig.dev.json
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\bin\Debug\netcoreapp2.1\filmes.dll
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\bin\Debug\netcoreapp2.1\filmes.pdb
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.csprojAssemblyReference.cache
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.csproj.CoreCompileInputs.cache
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.RazorAssemblyInfo.cache
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.RazorAssemblyInfo.cs
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.AssemblyInfoInputs.cache
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.AssemblyInfo.cs
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.RazorTargetAssemblyInfo.cache
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.dll
+C:\Users\51564241807\Desktop\sprint2-backend\filmes\filmes\obj\Debug\netcoreapp2.1\filmes.pdb
