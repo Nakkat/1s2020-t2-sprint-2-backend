@@ -21,7 +21,7 @@ namespace senai.Filmes.WebApi.Repositories
         /// user Id=sa; pwd=sa@132 - Faz a autenticação com um usuário específico, passando o logon e a senha
         /// </summary>
         //private string StringConexao = "Data Source=DESKTOP-NJ6LHN1\\SQLDEVELOPER; initial catalog=Filmes; integrated security=true;";
-        private string stringConexao = "Data Source=DESKTOP-GCOFA7F\\SQLEXPRESS; initial catalog=Filmes_manha; user Id=sa; pwd=sa@132";
+        private string stringConexao = "Data Source=DEV301\\SQLEXPRESS; initial catalog=Filmes_Manha; user Id=sa; pwd=sa@132";
         
         /// <summary>
         /// Atualiza um gênero passando o ID pelo corpo da requisição
@@ -33,7 +33,7 @@ namespace senai.Filmes.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query que será executada
-                string queryUpdate = "UPDATE Generos SET Nome = @Nome WHERE IdGenero = @ID";
+                string queryUpdate = "UPDATE Genero SET Nome = @Nome WHERE IdGenero = @ID";
 
                 // Declara o SqlCommand passando o comando a ser executado e a conexão
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
@@ -62,7 +62,7 @@ namespace senai.Filmes.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query que será executada
-                string queryUpdate = "UPDATE Generos SET Nome = @Nome WHERE IdGenero = @ID";
+                string queryUpdate = "UPDATE Genero SET Nome = @Nome WHERE IdGenero = @ID";
 
                 // Declara o SqlCommand passando o comando a ser executado e a conexão
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
@@ -91,7 +91,7 @@ namespace senai.Filmes.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query que será executada
-                string querySelectById = "SELECT IdGenero, Nome FROM Generos WHERE IdGenero = @ID";
+                string querySelectById = "SELECT IdGenero, Nome FROM Genero WHERE IdGenero = @ID";
                 
                 // Abre a conexão com o banco de dados
                 con.Open();
@@ -150,7 +150,7 @@ namespace senai.Filmes.WebApi.Repositories
                 // https://www.devmedia.com.br/sql-injection/6102
 
                 // Declara a query que será executada passando o valor como parâmetro, evitando assim os problemas acima
-                string queryInsert = "INSERT INTO Generos(Nome) VALUES (@Nome)";
+                string queryInsert = "INSERT INTO Genero(Nome) VALUES (@Nome)";
 
                 // Declara o comando passando a query e a conexão
                 SqlCommand cmd = new SqlCommand(queryInsert, con);
@@ -176,7 +176,7 @@ namespace senai.Filmes.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a query que será executada passando o valor como parâmetro
-                string queryDelete = "DELETE FROM Generos WHERE IdGenero = @ID";
+                string queryDelete = "DELETE FROM Genero WHERE IdGenero = @ID";
 
                 // Declara o comando passando a query e a conexão
                 using (SqlCommand cmd = new SqlCommand(queryDelete, con))
@@ -206,7 +206,7 @@ namespace senai.Filmes.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 // Declara a instrução a ser executada
-                string querySelectAll = "SELECT IdGenero, Nome from Generos";
+                string querySelectAll = "SELECT IdGenero, Nome from Genero";
 
                 // Abre a conexão com o banco de dados
                 con.Open();
@@ -241,6 +241,11 @@ namespace senai.Filmes.WebApi.Repositories
 
             // Retorna a lista de generos
             return generos;
+        }
+
+        GeneroDomain IGeneroRepository.BuscarPorId(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
