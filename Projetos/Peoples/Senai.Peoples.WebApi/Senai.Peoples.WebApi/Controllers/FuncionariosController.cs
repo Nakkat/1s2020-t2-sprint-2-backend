@@ -43,6 +43,25 @@ namespace Senai.Peoples.WebApi.Controllers
             return Ok(funcionarioBuscado);
         }
 
+        [HttpGet("Buscar/{nome}")]
+        public IActionResult BuscarPorNome(string nome)
+        {
+            return StatusCode(200, _funcionarioRepository.BuscarPorNome(nome));
+        }
+
+        [HttpGet("Ordenacao/{ordem}")]
+        public IActionResult OrdenarAsc(string ordem)
+        {
+            if (ordem == "ASC")
+            {
+                return StatusCode(200, _funcionarioRepository.OrdenarAsc());
+            }
+            else
+            {
+                return StatusCode(400);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post(FuncionarioDomain novoFuncionario)
         {

@@ -52,38 +52,25 @@ namespace senai.Filmes.WebApi.Repositories
 
         public FilmeDomain GetById(int id)
         {
-            // Declara a conexão passando a string de conexão
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                // Declara a query que será executada
-                string querySelectById = "SELECT idfilme AS Filme, titulo AS Nome,genero.idgenero as Genero, nome AS Titulo FROM filmes INNER JOIN genero ON genero.IdGenero = filmes.IdGenero WHERE genero.IdGenero = @ID";
+                string querySelectById = "SELECT idfilme AS Filme, titulo AS Nome,genero.idgenero as Genero, nome AS Titulo FROM filmes INNER JOIN genero ON genero.IdGenero = filmes.IdGenero WHERE idfilme = @ID";
 
-                // Abre a conexão com o banco de dados
                 con.Open();
 
-                // Declara o SqlDataReader fazer a leitura no banco de dados
                 SqlDataReader rdr;
 
-                // Declara o SqlCommand passando o comando a ser executado e a conexão
                 using (SqlCommand cmd = new SqlCommand(querySelectById, con))
                 {
-                    // Passa o valor do parâmetro
                     cmd.Parameters.AddWithValue("@ID", id);
 
-                    // Executa a query
                     rdr = cmd.ExecuteReader();
 
-                    // Caso a o resultado da query possua registro
                     if (rdr.Read())
                     {
-                        // Cria um objeto genero
                         FilmeDomain filmes = new FilmeDomain
                         {
-                            // Atribui à propriedade IdGenero o valor da coluna "IdGenero" da tabela do banco
                             IdFilme = Convert.ToInt32(rdr[0]),
-
-                            // Atribui à propriedade Nome o valor da coluna "Nome" da tabela do banco
-                            
                             Titulo = rdr["Titulo"].ToString(),
                             IdGenero = Convert.ToInt32(rdr[2]),
                             Genero = new GeneroDomain
@@ -92,12 +79,8 @@ namespace senai.Filmes.WebApi.Repositories
                                 Nome = rdr["Nome"].ToString()
                             }
                         };
-
-                        // Retorna o genero com os dados obtidos
                         return filmes;
                     }
-
-                    // Caso o resultado da query não possua registros, retorna null
                     return null;
                 }
             }
@@ -105,47 +88,35 @@ namespace senai.Filmes.WebApi.Repositories
 
         public void Register(FilmeDomain filmes)
         {
-            // Declara a conexão passando a string de conexão
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                // Declara a query que será executada passando o valor como parâmetro, evitando assim os problemas acima
                 string queryInsert = "INSERT INTO Filmes(Titulo,IdGenero) VALUES (@T,@Id)";
 
-                // Declara o comando passando a query e a conexão
                 SqlCommand cmd = new SqlCommand(queryInsert, con);
 
-                // Passa o valor do parâmetro
                 cmd.Parameters.AddWithValue("@T", filmes.Titulo);
                 cmd.Parameters.AddWithValue("@Id", filmes.IdGenero);
 
-                // Abre a conexão com o banco de dados
                 con.Open();
 
-                // Executa o comando
                 cmd.ExecuteNonQuery();
             }
         }
 
         public void Alterar(int id, FilmeDomain filmes)
         {
-            // Declara a conexão passando a string de conexãoTitulo
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                // Declara a query que será executada
-                string queryUpdate = "UPDATE Filmes SET Titulo = @Titulo  WHERE IdFilme= @ID";
+                string queryUpdate = "UPDATE Filmes SET Titulo = @Titulo, IdGenero = @ID2 WHERE IdFilme= @ID";
 
-                // Declara o SqlCommand passando o comando a ser executado e a conexão
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                 {
-                    // Passa os valores dos parâmetros
-                    cmd.Parameters.AddWithValue("@ID", id);
                     cmd.Parameters.AddWithValue("@Titulo", filmes.Titulo);
-
-                    
-                    // Abre a conexão com o banco de dados
+                    cmd.Parameters.AddWithValue("@ID2", filmes.IdGenero);
+                    cmd.Parameters.AddWithValue("@ID", id);
+                  
                     con.Open();
 
-                    // Executa o comando
                     cmd.ExecuteNonQuery();
                 }
             }
@@ -153,22 +124,16 @@ namespace senai.Filmes.WebApi.Repositories
 
         public void Apagar(int id)
         {
-            // Declara a conexão passando a string de conexão
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                // Declara a query que será executada passando o valor como parâmetro
                 string queryDelete = "DELETE FROM Filmes WHERE IdFilme = @ID";
 
-                // Declara o comando passando a query e a conexão
                 using (SqlCommand cmd = new SqlCommand(queryDelete, con))
                 {
-                    // Passa o valor do parâmetro
                     cmd.Parameters.AddWithValue("@ID", id);
 
-                    // Abre a conexão com o banco de dados
                     con.Open();
 
-                    // Executa o comando
                     cmd.ExecuteNonQuery();
                 }
             }

@@ -25,71 +25,55 @@ namespace senai.Filmes.WebApi.Controllers
         [HttpGet]
         public IEnumerable<FilmeDomain> Get()
         {
-            // Faz a chamada para o método .Listar();
             return _filmeRepository.Get();
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-            // Cria um objeto generoBuscado que irá receber o gênero buscado no banco de dados
             FilmeDomain filmeBuscado = _filmeRepository.GetById(id);
 
-            // Verifica se nenhum gênero foi encontrado
             if (filmeBuscado == null)
             {
-                // Caso não seja encontrado, retorna um status code 404 com a mensagem personalizada
-                return NotFound("Nenhum gênero encontrado");
+                return NotFound("Nenhum filme encontrado");
             }
 
-            // Caso seja encontrado, retorna o gênero buscado
             return Ok(filmeBuscado);
         }
 
         [HttpPost]
         public IActionResult Post(FilmeDomain novoFilme)
         {
-            // Faz a chamada para o método .Cadastrar();
             _filmeRepository.Register(novoFilme);
 
-            // Retorna um status code 201 - Created
             return StatusCode(201);
         }
 
         [HttpPut("{id}")]
         public IActionResult PutIdUrl(int id, FilmeDomain filmeAtualizado)
         {
-            // Cria um objeto generoBuscado que irá receber o gênero buscado no banco de dados
             FilmeDomain filmeBuscado = _filmeRepository.GetById(id);
 
-            // Verifica se nenhum gênero foi encontrado
             if (filmeBuscado == null)
             {
-                // Caso não seja encontrado, retorna NotFound com uma mensagem personalizada
-                // e um bool para representar que houve erro
                 return NotFound
                     (
                         new
                         {
-                            mensagem = "Gênero não encontrado",
+                            mensagem = "Filme não encontrado",
                             erro = true
                         }
                     );
             }
 
-            // Tenta atualizar o registro
             try
             {
-                // Faz a chamada para o método .AtualizarIdUrl();
                 _filmeRepository.Alterar(id, filmeAtualizado);
 
-                // Retorna um status code 204 - No Content
                 return NoContent();
             }
-            // Caso ocorra algum erro
             catch (Exception erro)
             {
-                // Retorna BadRequest e o erro
                 return BadRequest(erro);
             }
         }
@@ -97,10 +81,8 @@ namespace senai.Filmes.WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Apagar(int id)
         {
-            // Faz a chamada para o método .Deletar();
             _filmeRepository.Apagar(id);
 
-            // Retorna um status code com uma mensagem personalizada
             return Ok("Filme deletado");
         }
     }

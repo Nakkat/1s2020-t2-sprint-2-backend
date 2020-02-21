@@ -22,7 +22,7 @@
   },
   "targets": {
     ".NETCoreApp,Version=v2.1": {
-      "senai.Filmes.WebApi/1.0.0": {
+      "Senai.Filmes.WebApi/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.App": "2.1.1",
           "Microsoft.AspNetCore.Razor.Design": "2.1.2",
@@ -31,10 +31,10 @@
           "System.Data.SqlClient": "4.8.0"
         },
         "runtime": {
-          "senai.Filmes.WebApi.dll": {}
+          "Senai.Filmes.WebApi.dll": {}
         },
         "compile": {
-          "senai.Filmes.WebApi.dll": {}
+          "Senai.Filmes.WebApi.dll": {}
         }
       },
       "Microsoft.AspNetCore.Razor.Design/2.1.2": {},
@@ -3571,7 +3571,7 @@
     }
   },
   "libraries": {
-    "senai.Filmes.WebApi/1.0.0": {
+    "Senai.Filmes.WebApi/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -12,6 +12,10 @@ namespace Senai.Peoples.WebApi.Interfaces
 
         FuncionarioDomain BuscarPorId (int id);
 
+        List<FuncionarioDomain> OrdenarAsc();
+
+        FuncionarioDomain BuscarPorNome(string nome);
+
         void Cadastrar(FuncionarioDomain Funcionario);
 
         void Alterar(int id, FuncionarioDomain Funcionario);

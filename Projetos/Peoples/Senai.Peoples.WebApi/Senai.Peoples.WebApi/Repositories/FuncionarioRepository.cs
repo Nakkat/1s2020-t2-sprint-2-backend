@@ -71,7 +71,82 @@ namespace Senai.Peoples.WebApi.Repositories
             }
         }
 
-        public void Cadastrar(FuncionarioDomain funcionarios)
+        public FuncionarioDomain BuscarPorNome(string nome)
+        {
+            FuncionarioDomain funcionarios = new FuncionarioDomain();
+
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+                // Declara a instrução a ser executada
+                string query = "EXEC BuscarPorNome @Nome";
+
+                // Abre a conexão com o banco de dados
+                con.Open();
+
+                // Declara o SqlDataReader para percorrer a tabela do banco
+                SqlDataReader rdr;
+
+                // Declara o SqlCommand passando o comando a ser executado e a conexão
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Nome", nome);
+                    // Executa a query
+                    rdr = cmd.ExecuteReader();
+
+                    // Enquanto houver registros para ler, o laço se repete
+                    while (rdr.Read())
+                    {
+
+                        funcionarios.IdFuncionario = Convert.ToInt32(rdr["IdFuncionario"]);
+                        funcionarios.Nome = rdr["Nome"].ToString() + " " + rdr["Sobrenome"].ToString();
+                        funcionarios.DataNascimento = rdr["DataNascimento"].ToString();
+
+                    }
+                }
+
+                return funcionarios;
+            }
+        }
+
+        public List<FuncionarioDomain> OrdenarAsc()
+        {
+            List<FuncionarioDomain> funcionarios = new List<FuncionarioDomain>();
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+                // Declara a instrução a ser executada
+                string query = "EXEC OrdernarNomesASC";
+
+                // Abre a conexão com o banco de dados
+                con.Open();
+
+                // Declara o SqlDataReader para percorrer a tabela do banco
+                SqlDataReader rdr;
+
+                // Declara o SqlCommand passando o comando a ser executado e a conexão
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    // Executa a query
+                    rdr = cmd.ExecuteReader();
+
+                    // Enquanto houver registros para ler, o laço se repete
+                    while (rdr.Read())
+                    {
+                        // Cria um objeto genero do tipo GeneroDomain
+                        FuncionarioDomain funcionario = new FuncionarioDomain();
+
+                        funcionario.IdFuncionario = Convert.ToInt32(rdr["IdFuncionario"]);
+                        funcionario.Nome = rdr["Nome"].ToString();
+                        funcionario.Sobrenome = rdr["Sobrenome"].ToString();
+                        funcionario.DataNascimento = rdr["DataNascimento"].ToString();
+
+                        funcionarios.Add(funcionario);
+                    }
+                }
+            }
+            return funcionarios;
+        }
+
+            public void Cadastrar(FuncionarioDomain funcionarios)
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
@@ -137,6 +212,11 @@ namespace Senai.Peoples.WebApi.Repositories
                 }
             }
             return funcionarios;
+        }
+
+        public FuncionarioDomain BuscarNomeCompletoPorOrdem(FuncionarioDomain Funcionario)
+        {
+            throw new NotImplementedException();
         }
     }
 }
