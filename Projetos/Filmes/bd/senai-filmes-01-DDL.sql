@@ -1,0 +1,15 @@
+CREATE DATABASE Filmes_Manha;
+USE Filmes_Manha;
+
+CREATE TABLE Filmes (
+	IdFilmes INT PRIMARY KEY IDENTITY,
+	Titulo	 VARCHAR(255)
+);
+
+CREATE TABLE Genero (
+	IdGenero INT PRIMARY KEY IDENTITY,
+	Nome	 VARCHAR(255)
+)
+
+
+
