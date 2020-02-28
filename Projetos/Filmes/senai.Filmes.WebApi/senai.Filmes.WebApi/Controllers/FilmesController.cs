@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai.Filmes.WebApi.Domains;
@@ -41,6 +42,13 @@ namespace senai.Filmes.WebApi.Controllers
             return Ok(filmeBuscado);
         }
 
+        [HttpGet("pesquisar/{busca}")]
+        public IActionResult GetByTitle(string busca)
+        {
+            return Ok(_filmeRepository.BuscarPorTitulo(busca));
+        }
+
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public IActionResult Post(FilmeDomain novoFilme)
         {
@@ -49,6 +57,7 @@ namespace senai.Filmes.WebApi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public IActionResult PutIdUrl(int id, FilmeDomain filmeAtualizado)
         {
@@ -78,6 +87,7 @@ namespace senai.Filmes.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpDelete("{id}")]
         public IActionResult Apagar(int id)
         {

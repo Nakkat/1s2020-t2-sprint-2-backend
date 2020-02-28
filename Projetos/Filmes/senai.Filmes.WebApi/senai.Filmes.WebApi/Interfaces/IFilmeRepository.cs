@@ -17,5 +17,7 @@ namespace senai.Filmes.WebApi.Interfaces
         void Alterar(int id, FilmeDomain Filme);
 
         void Apagar(int id);
+
+        List<FilmeDomain> BuscarPorTitulo(string busca);
     }
 }

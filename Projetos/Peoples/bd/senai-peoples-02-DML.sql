@@ -1,25 +1,24 @@
-INSERT INTO Funcionarios VALUES (
-	'Catarina','Strada'
-),
+INSERT INTO TipoUsuario VALUES (
+	'Administrador'
+), 
 (
-	'Tadeu','Vitelli'
+	'Comum'
 )
 ;
 
-update Funcionarios set DataNascimento = '02/10/1960' where IdFuncionario = 4;
-update Funcionarios set DataNascimento = '02/10/1960' where IdFuncionario = 5;
-update Funcionarios set DataNascimento = '02/10/1960' where IdFuncionario = 6;
-update Funcionarios set DataNascimento = '02/10/1960' where IdFuncionario = 7;
-update Funcionarios set DataNascimento = '02/10/1960' where IdFuncionario = 9
+INSERT INTO Usuario VALUES (
+	'cat@adm.com','123',1
+),
+(
+	'tadeu@email.com','123',2
+);
 
-CREATE PROCEDURE BuscarPorNome @Nome VARCHAR(255)
-AS
-SELECT * FROM Funcionarios WHERE Nome = @Nome  
+INSERT INTO Funcionarios VALUES (
+	'Catarina','Strada',1,'02/10/1960'
+),
+(
+	'Tadeu','Vitelli',2,'02/10/1960'
+)
+;
 
-EXEC BuscarPorNome 'Carlos'
 
-CREATE PROCEDURE OrdernarNomesASC
-AS
-SELECT * FROM Funcionarios ORDER BY Nome ASC
-
-EXEC OrdernarNomesASC

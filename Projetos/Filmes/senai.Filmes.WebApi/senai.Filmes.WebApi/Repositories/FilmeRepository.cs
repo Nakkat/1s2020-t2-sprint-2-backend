@@ -86,7 +86,71 @@ namespace senai.Filmes.WebApi.Repositories
             }
         }
 
-        public void Register(FilmeDomain filmes)
+        public List<FilmeDomain> BuscarPorTitulo(string busca)
+        {
+            // Cria uma lista filmes onde serão armazenados os dados
+            List<FilmeDomain> filmes = new List<FilmeDomain>();
+
+            // Declara a SqlConnection passando a string de conexão
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+                // Declara a instrução a ser executada
+                string querySelectAll = "SELECT IdFilme, Titulo, Filmes.IdGenero, Genero.Nome FROM Filmes" +
+                                        " INNER JOIN Genero" +
+                                        " ON Filmes.IdGenero = Genero.IdGenero" +
+                                        $" WHERE Titulo LIKE '%{busca}%' ORDER BY Titulo DESC";
+
+                // Abre a conexão com o banco de dados
+                con.Open();
+
+                // Declara o SqlDataReader para receber os dados do banco de dados
+                SqlDataReader rdr;
+
+                // Declara o SqlCommand passando o comando a ser executado e a conexão
+                using (SqlCommand cmd = new SqlCommand(querySelectAll, con))
+                {
+
+                    // Executa a query e armazena os dados no rdr
+                    rdr = cmd.ExecuteReader();
+
+                    // Enquanto houver registros para serem lidos no rdr, o laço se repete
+                    while (rdr.Read())
+                    {
+                        // Instancia um objeto filme do tipo FilmeDomain
+                        FilmeDomain filme = new FilmeDomain
+                        {
+                            // Atribui à propriedade IdFilme o valor da coluna IdFilme da tabela do banco de dados
+                            IdFilme = Convert.ToInt32(rdr["IdFilme"])
+
+                            // Atribui à propriedade Titulo o valor da coluna Titulo da tabela do banco de dados
+                            ,
+                            Titulo = rdr["Titulo"].ToString()
+
+                            // Atribui à propriedade IdGenero o valor da coluna IdGenero da tabela do banco de dados
+                            ,
+                            IdGenero = Convert.ToInt32(rdr["IdGenero"])
+
+                            ,
+                            Genero = new GeneroDomain
+                            {
+                                // Atribui à propriedade IdGenero o valor da coluna IdGenero da tabela do banco de dados
+                                IdGenero = Convert.ToInt32(rdr["IdGenero"])
+
+                                // Atribui à propriedade Nome o valor da coluna Nome da tabela do banco de dados
+                                ,
+                                Nome = rdr["Nome"].ToString()
+                            }
+                        };
+
+                        // Adiciona o filme criado à lista filmes
+                        filmes.Add(filme);
+                    }
+                }
+            }
+            return filmes;
+        }
+
+            public void Register(FilmeDomain filmes)
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {

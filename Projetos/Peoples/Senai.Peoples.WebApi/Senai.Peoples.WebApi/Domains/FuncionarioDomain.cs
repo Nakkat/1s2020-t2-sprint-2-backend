@@ -14,5 +14,9 @@ namespace Senai.Peoples.WebApi.Domains
             public string Sobrenome { get; set; }
 
             public string DataNascimento { get; set; }
+
+            public int IdUsuario { get; set; }
+
+            public UsuarioDomain Usuario { get; set; }
     }
 }

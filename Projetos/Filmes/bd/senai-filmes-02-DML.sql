@@ -12,3 +12,7 @@ INSERT INTO Genero VALUES (
 INSERT INTO Genero VALUES (
 	'Aventura'
 );
+
+INSERT INTO Usuarios (Email, Senha, Permissao)
+VALUES				 ('bruno@email.com','123','Comum'),
+					 ('adm@email.com','123','Administrador');
