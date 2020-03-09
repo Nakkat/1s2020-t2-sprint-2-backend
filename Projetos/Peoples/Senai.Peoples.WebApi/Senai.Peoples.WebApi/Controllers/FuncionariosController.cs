@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.Peoples.WebApi.Domains;
@@ -13,6 +14,7 @@ namespace Senai.Peoples.WebApi.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FuncionariosController : ControllerBase
     {
         private IFuncionarioRepository _funcionarioRepository { get; set; }
@@ -43,12 +45,14 @@ namespace Senai.Peoples.WebApi.Controllers
             return Ok(funcionarioBuscado);
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("Buscar/{nome}")]
         public IActionResult BuscarPorNome(string nome)
         {
             return StatusCode(200, _funcionarioRepository.BuscarPorNome(nome));
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("Ordenacao/{ordem}")]
         public IActionResult OrdenarAsc(string ordem)
         {
@@ -72,6 +76,7 @@ namespace Senai.Peoples.WebApi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut("{id}")]
         public IActionResult Alterar(int id, FuncionarioDomain funcionarioAtualizado)
         {
@@ -101,6 +106,7 @@ namespace Senai.Peoples.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {

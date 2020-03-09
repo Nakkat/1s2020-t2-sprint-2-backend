@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.Peoples.WebApi.Domains;
@@ -13,7 +14,7 @@ namespace Senai.Peoples.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
-
+    [Authorize]
     public class UsuariosController : ControllerBase
     {
         private IUsuarioRepository _usuarioRepository { get; set; }
@@ -23,15 +24,17 @@ namespace Senai.Peoples.WebApi.Controllers
             _usuarioRepository = new UsuarioRepository();
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet]
-        public IEnumerable<UsuarioDomain> Get()
+        public IEnumerable<UsuarioDomain> ListarUsuario()
         {
 
             return _usuarioRepository.ListarUsuario();
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
-        public IActionResult BuscarUsuario(int id)
+        public IActionResult BuscarPorIdUsuario(int id)
         {
             UsuarioDomain usuarioBuscado = _usuarioRepository.BuscarPorIdUsuario(id);
 
@@ -48,12 +51,22 @@ namespace Senai.Peoples.WebApi.Controllers
         public IActionResult CadastrarUsuario(UsuarioDomain novoUsuario)
         {
             // Faz a chamada para o método .Cadastrar();
+
+            try
+            {
             _usuarioRepository.CadastrarUsuario(novoUsuario);
+                return StatusCode(201);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
             // Retorna um status code 201 - Created
-            return StatusCode(201);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut("{id}")]
         public IActionResult AlterarUsuario(int id, UsuarioDomain usuarioAtualizado)
         {
@@ -83,6 +96,7 @@ namespace Senai.Peoples.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {

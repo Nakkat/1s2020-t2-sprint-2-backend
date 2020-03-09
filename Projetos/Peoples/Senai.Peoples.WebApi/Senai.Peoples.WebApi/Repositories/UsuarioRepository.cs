@@ -18,7 +18,7 @@ namespace Senai.Peoples.WebApi.Repositories
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectAll = " SELECT IdUsuario as Usuario, Email, Senha, Titulo FROM Usuario " +
+                string querySelectAll = " SELECT IdUsuario as Usuario, Email, Senha, tipoUsuario.IdTipoUsuario as TipoUsuario, Titulo FROM Usuario " +
                                         " INNER JOIN TipoUsuario on Usuario.IdTipoUsuario = TipoUsuario.IdTipoUsuario ";
 
                 con.Open();
@@ -56,7 +56,7 @@ namespace Senai.Peoples.WebApi.Repositories
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectById = " SELECT IdUsuario as Usuario, Email, Senha, Titulo FROM Usuario " +
+                string querySelectById = " SELECT IdUsuario as Usuario, Email, Senha, TipoUsuario.IdTipoUsuario as TipoUSuario, Titulo FROM Usuario " +
                                          " INNER JOIN TipoUsuario on Usuario.IdTipoUsuario = TipoUsuario.IdTipoUsuario " +
                                          " WHERE IdUsuario = @ID ";
 
@@ -99,16 +99,64 @@ namespace Senai.Peoples.WebApi.Repositories
             }
         }
 
+        public UsuarioDomain BuscarPorEmailSenha(string email, string senha)
+        {
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+                string querySelect = "SELECT IdUsuario, Email, Senha, TipoUsuario.IdTipoUSuario, Titulo FROM Usuario " +
+                                     "INNER JOIN TipoUsuario on Usuario.IdTipoUsuario = TipoUsuario.IdTipoUsuario " +
+                                     "WHERE Email = @Email AND Senha = @Senha";
+                                     
+
+                using (SqlCommand cmd = new SqlCommand(querySelect, con))
+                {
+                    cmd.Parameters.AddWithValue("@Email", email);
+                    cmd.Parameters.AddWithValue("@Senha", senha);
+
+                    con.Open();
+
+                    SqlDataReader rdr = cmd.ExecuteReader();
+
+                    if (rdr.HasRows)
+                    {
+                        UsuarioDomain usuario = new UsuarioDomain();
+
+                        while (rdr.Read())
+                        {
+                            usuario.IdUsuario = Convert.ToInt32(rdr[0]);
+
+                            usuario.Email = rdr[1].ToString();
+
+                            usuario.Senha = rdr[2].ToString();
+
+                            usuario.IdTipoUsuario = Convert.ToInt32(rdr[3]);
+
+                            usuario.TipoUsuario  = new TipoUsuarioDomain
+                            {
+                                IdTipoUsuario = Convert.ToInt32(rdr[3]),
+                                Titulo = rdr[4].ToString(),
+                            };
+                        }
+
+                        return usuario;
+                    }
+                }
+
+                return null;
+            }
+        }
+
         public void CadastrarUsuario(UsuarioDomain usuario)
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryInsert = "INSERT INTO Usuario(Email,Senha) VALUES (@E,@S)";
+                string queryInsert = "INSERT INTO Usuario(Email, Senha, TipoUsuario.IdTipoUsuario) VALUES (@E,@S,@T)";
 
                 SqlCommand cmd = new SqlCommand(queryInsert, con);
 
                 cmd.Parameters.AddWithValue("@E", usuario.Email);
                 cmd.Parameters.AddWithValue("@S", usuario.Senha);
+                cmd.Parameters.AddWithValue("@T", usuario.IdTipoUsuario);
 
                 con.Open();
 
@@ -116,7 +164,7 @@ namespace Senai.Peoples.WebApi.Repositories
             }
         }
 
-        public void AlteraUsuario(int id, UsuarioDomain usuario)
+        public void AlterarUsuario(int id, UsuarioDomain usuario)
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
@@ -127,6 +175,7 @@ namespace Senai.Peoples.WebApi.Repositories
                     cmd.Parameters.AddWithValue("@ID", id);
                     cmd.Parameters.AddWithValue("@Email", usuario.Email);
                     cmd.Parameters.AddWithValue("@Senha", usuario.Senha);
+                    cmd.Parameters.AddWithValue("@IdTU", usuario.IdTipoUsuario);
 
                     con.Open();
 
@@ -152,16 +201,6 @@ namespace Senai.Peoples.WebApi.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        public void AlterarUsuario(int id, UsuarioDomain Usuario)
-        {
-            throw new NotImplementedException();
-        }
-
-        public UsuarioDomain BuscarPorEmailSenha(string email, string senha)
-        {
-            throw new NotImplementedException();
         }
     }
 }

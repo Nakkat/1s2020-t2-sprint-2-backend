@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,6 +16,7 @@ namespace Senai.Peoples.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class LoginsController : ControllerBase
     {
         private IUsuarioRepository _usuarioRepository { get; set; }
@@ -43,7 +45,7 @@ namespace Senai.Peoples.WebApi.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Email, usuarioBuscado.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, usuarioBuscado.IdUsuario.ToString()),
-                new Claim(ClaimTypes.Role, usuarioBuscado.Titulo),
+                new Claim(ClaimTypes.Role, usuarioBuscado.TipoUsuario.Titulo),
             };
 
             // Define a chave de acesso ao token

@@ -24,7 +24,12 @@ CREATE TABLE Funcionarios (
 
 CREATE PROCEDURE OrdernarNomesASC
 AS
-SELECT * FROM Funcionarios ORDER BY Nome ASC
+SELECT IdFuncionario as Funcionario, Nome, Sobrenome, DataNascimento, Usuario.IdUsuario as USuario, 
+Email, Senha, TipoUsuario.IdTipoUsuario as TipoUsuario, Titulo FROM Funcionarios 
+INNER JOIN Usuario on Usuario.IdUsuario = Funcionarios.IdUsuario 
+INNER JOIN TipoUsuario on TipoUsuario.IdTipoUsuario = Funcionarios.IdUsuario	
+ORDER BY Nome ASC
+
 
 EXEC OrdernarNomesASC
 

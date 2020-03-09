@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Senai.Peoples.WebApi.Domains;
@@ -13,6 +14,7 @@ namespace Senai.Peoples.WebApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
+    [Authorize]
 
     public class TiposUsuarioController : ControllerBase
     {
@@ -23,6 +25,7 @@ namespace Senai.Peoples.WebApi.Controllers
             _tipoTipoUsuarioRepository = new TipoUsuarioRepository();
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet]
         public IEnumerable<TipoUsuarioDomain> Get()
         {
@@ -30,6 +33,7 @@ namespace Senai.Peoples.WebApi.Controllers
             return _tipoTipoUsuarioRepository.ListarTipoUsuario();
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -44,6 +48,7 @@ namespace Senai.Peoples.WebApi.Controllers
             return Ok(tipoUsuarioBuscado);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPost]
         public IActionResult Post(TipoUsuarioDomain novoUsuario)
         {
@@ -54,6 +59,7 @@ namespace Senai.Peoples.WebApi.Controllers
             return StatusCode(201);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut("{id}")]
         public IActionResult AlterarUSuario(int id, TipoUsuarioDomain usuarioAtualizado)
         {
@@ -83,6 +89,7 @@ namespace Senai.Peoples.WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "1")]
         [HttpDelete("{id}")]
         public IActionResult Deletar(int id)
         {

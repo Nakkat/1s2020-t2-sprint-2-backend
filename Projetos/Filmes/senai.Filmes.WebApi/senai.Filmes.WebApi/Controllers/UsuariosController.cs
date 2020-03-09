@@ -10,8 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using senai.Filmes.WebApi.Domains;
 using senai.Filmes.WebApi.Interfaces;
 using senai.Filmes.WebApi.Repositories;
-using Senai.Filmes.WebApi.Domains;
-using Senai.Filmes.WebApi.Interfaces;
+
 
 namespace senai.Filmes.WebApi.Controllers
 {

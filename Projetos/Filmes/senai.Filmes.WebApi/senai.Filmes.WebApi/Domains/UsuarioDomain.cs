@@ -4,8 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Senai.Filmes.WebApi.Domains
+namespace senai.Filmes.WebApi.Domains
 {
+    /// <summary>
+    /// Classe que representa a tabela Usuarios
+    /// </summary>
+
     public class UsuarioDomain
     {
         public int IdUsuario { get; set; }
@@ -24,3 +28,5 @@ namespace Senai.Filmes.WebApi.Domains
         public string Permissao { get; set; }
     }
 }
+
+   

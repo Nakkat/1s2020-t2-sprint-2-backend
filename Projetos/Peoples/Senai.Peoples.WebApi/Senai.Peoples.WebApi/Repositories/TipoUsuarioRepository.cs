@@ -12,7 +12,7 @@ namespace Senai.Peoples.WebApi.Repositories
     {
         private string stringConexao = "Data Source=DEV301\\SQLEXPRESS; initial catalog=Manha_Peoples; user Id=sa; pwd=sa@132";
 
-        public List<TipoUsuarioDomain> ListarTipoUSuario()
+        public List<TipoUsuarioDomain> ListarTipoUsuario()
         {
             List<TipoUsuarioDomain> tipoUsuario = new List<TipoUsuarioDomain>();
 
@@ -30,13 +30,13 @@ namespace Senai.Peoples.WebApi.Repositories
 
                     while (rdr.Read())
                     {
-                        TipoUsuarioDomain funcionario = new TipoUsuarioDomain
+                        TipoUsuarioDomain tiposUsuario = new TipoUsuarioDomain
                         {
                             IdTipoUsuario = Convert.ToInt32(rdr[0]),
                             Titulo= rdr[1].ToString(),
                         };
 
-                        tipoUsuario.Add(funcionario);
+                        tipoUsuario.Add(tiposUsuario);
                     }
                 }
             }
@@ -48,7 +48,7 @@ namespace Senai.Peoples.WebApi.Repositories
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectById = "SELECT IdTipoUsuario AS TipoUsuario, Titulo FROM TipoUsuario WHERE IdTipoFuncionario = ID";
+                string querySelectById = "SELECT IdTipoUsuario, Titulo FROM TipoUsuario WHERE IdTipoUsuario = @ID";
 
                 con.Open();
 
@@ -96,7 +96,7 @@ namespace Senai.Peoples.WebApi.Repositories
         {
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string queryUpdate = "UPDATE tipoUsuario SET Titulo = @Titulo WHERE IdFuncionario = @ID";
+                string queryUpdate = "UPDATE tipoUsuario SET Titulo = @Titulo WHERE IdTipoUsuario = @ID";
 
                 using (SqlCommand cmd = new SqlCommand(queryUpdate, con))
                 {
@@ -116,7 +116,7 @@ namespace Senai.Peoples.WebApi.Repositories
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
 
-                string queryDelete = "DELETE FROM tipoUsuario WHERE IdFuncionario = @ID";
+                string queryDelete = "DELETE FROM tipoUsuario WHERE IdTipoUsuario = @ID";
 
                 using (SqlCommand cmd = new SqlCommand(queryDelete, con))
                 {
@@ -128,11 +128,6 @@ namespace Senai.Peoples.WebApi.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
-        }
-
-        public List<TipoUsuarioDomain> ListarTipoUsuario()
-        {
-            throw new NotImplementedException();
         }
     }
 }

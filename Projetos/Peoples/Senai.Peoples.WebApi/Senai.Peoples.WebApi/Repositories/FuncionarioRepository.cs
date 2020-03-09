@@ -97,7 +97,10 @@ namespace Senai.Peoples.WebApi.Repositories
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string query = $"SELECT * FROM Funcionarios WHERE Nome LIKE '%{nome}%'";
+                string query = "SELECT IdFuncionario as Funcionario, Nome, Sobrenome, DataNascimento, Usuario.IdUSuario as Usuario, Email, Senha, TipoUSuario.IdTipoUSuario as TipoUSuario, Titulo FROM Funcionarios " +
+                                "  INNER JOIN Usuario on Usuario.IdUsuario = Funcionarios.IdUsuario " +
+                                "  INNER JOIN TipoUsuario on TipoUsuario.IdTipoUsuario = Funcionarios.IdUsuario " +
+                               $"  WHERE Nome LIKE '%{nome}%'";
 
                 con.Open();
 
@@ -112,9 +115,23 @@ namespace Senai.Peoples.WebApi.Repositories
                     {
                         FuncionarioDomain funcionarios = new FuncionarioDomain
                         {
-                            IdFuncionario = Convert.ToInt32(rdr["IdFuncionario"]),
-                            Nome = rdr["Nome"].ToString() + " " + rdr["Sobrenome"].ToString(),
-                            DataNascimento = rdr["DataNascimento"].ToString()
+                            IdFuncionario = Convert.ToInt32(rdr[0]),
+                            Nome = rdr[1].ToString(),
+                            Sobrenome = rdr[2].ToString(),
+                            DataNascimento = rdr[3].ToString(),
+                            IdUsuario = Convert.ToInt32(rdr[4]),
+                            Usuario = new UsuarioDomain
+                            {
+                                IdUsuario = Convert.ToInt32(rdr[4]),
+                                Email = rdr[5].ToString(),
+                                Senha = rdr[6].ToString(),
+                                IdTipoUsuario = Convert.ToInt32(rdr[7]),
+                                TipoUsuario = new TipoUsuarioDomain
+                                {
+                                    IdTipoUsuario = Convert.ToInt32(rdr[7]),
+                                    Titulo = rdr[8].ToString()
+                                }
+                            },
                         };
                         ListaFuncionario.Add(funcionarios);
                     }
@@ -148,12 +165,26 @@ namespace Senai.Peoples.WebApi.Repositories
                     while (rdr.Read())
                     {
                         // Cria um objeto genero do tipo GeneroDomain
-                        FuncionarioDomain funcionario = new FuncionarioDomain();
-
-                        funcionario.IdFuncionario = Convert.ToInt32(rdr["IdFuncionario"]);
-                        funcionario.Nome = rdr["Nome"].ToString();
-                        funcionario.Sobrenome = rdr["Sobrenome"].ToString();
-                        funcionario.DataNascimento = rdr["DataNascimento"].ToString();
+                        FuncionarioDomain funcionario = new FuncionarioDomain
+                        {
+                            IdFuncionario = Convert.ToInt32(rdr[0]),
+                            Nome = rdr[1].ToString(),
+                            Sobrenome = rdr[2].ToString(),
+                            DataNascimento = rdr[3].ToString(),
+                            IdUsuario = Convert.ToInt32(rdr[4]),
+                            Usuario = new UsuarioDomain
+                            {
+                                IdUsuario = Convert.ToInt32(rdr[4]),
+                                Email = rdr[5].ToString(),
+                                Senha = rdr[6].ToString(),
+                                IdTipoUsuario = Convert.ToInt32(rdr[7]),
+                                TipoUsuario = new TipoUsuarioDomain
+                                {
+                                    IdTipoUsuario = Convert.ToInt32(rdr[7]),
+                                    Titulo = rdr[8].ToString()
+                                }
+                            },
+                        };
 
                         funcionarios.Add(funcionario);
                     }
@@ -206,7 +237,7 @@ namespace Senai.Peoples.WebApi.Repositories
 
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelectAll = " SELECT IdFuncionario as Funcionario, Nome, Sobrenome, DataNascimento, Email, Senha, Titulo FROM Funcionarios " +
+                string querySelectAll = " SELECT IdFuncionario as Funcionario, Nome, Sobrenome, DataNascimento, Usuario.IdUsuario as Usuario, Email, Senha, TipoUsuario.IdTIpoUsuario as TipoUsuario, Titulo FROM Funcionarios " +
                                         " INNER JOIN Usuario on Usuario.IdUsuario = Funcionarios.IdUsuario " +
                                         " INNER JOIN TipoUsuario on TipoUsuario.IdTipoUsuario = Funcionarios.IdUsuario ";
 
@@ -222,7 +253,6 @@ namespace Senai.Peoples.WebApi.Repositories
                     {
                         FuncionarioDomain funcionario = new FuncionarioDomain
                         {
-                            // Atribui à propriedade IdGenero o valor da coluna "IdGenero" da tabela do banco
                             IdFuncionario = Convert.ToInt32(rdr[0]),
                             Nome = rdr[1].ToString(),
                             Sobrenome = rdr[2].ToString(),

@@ -1,7 +1,5 @@
 ﻿using senai.Filmes.WebApi.Domains;
 using senai.Filmes.WebApi.Interfaces;
-using Senai.Filmes.WebApi.Domains;
-using Senai.Filmes.WebApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

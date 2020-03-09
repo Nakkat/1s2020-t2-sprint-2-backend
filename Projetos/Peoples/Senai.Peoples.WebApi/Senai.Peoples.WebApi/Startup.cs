@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace senai.Peoples.WebApi
 {
@@ -22,7 +23,6 @@ namespace senai.Peoples.WebApi
             // Define a versão do .NET Core
             .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
-
             services
                 // Define a forma de autenticação
                 .AddAuthentication(options =>
@@ -30,6 +30,7 @@ namespace senai.Peoples.WebApi
                     options.DefaultAuthenticateScheme = "JwtBearer";
                     options.DefaultChallengeScheme = "JwtBearer";
                 })
+
 
                 // Define os parâmetros de validação do token
                 .AddJwtBearer("JwtBearer", options =>
