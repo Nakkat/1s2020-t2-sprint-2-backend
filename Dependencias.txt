@@ -1,0 +1,6 @@
+swashbuckle - swagger
+entity tools
+entity design
+entity sql server
+authentication
+identity model tokens jwt

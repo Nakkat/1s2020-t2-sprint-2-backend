@@ -33,18 +33,23 @@ namespace Senai.InLock.WebApi.CodeFirst.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TiposUsuario>().HasData(
+            modelBuilder.Entity<TiposUsuario>(entity =>
+            {
+                entity.HasIndex(tu => tu.Titulo).IsUnique();
+
+                entity.HasData(
                 new TiposUsuario
                 {
                     IdTipoUsuario = 1,
                     Titulo = "Admnistrador"
                 },
-                
+
                 new TiposUsuario
                 {
                     IdTipoUsuario = 2,
                     Titulo = "Comum"
                 });
+            });
 
             modelBuilder.Entity<Usuarios>().HasData(
                 new Usuarios
